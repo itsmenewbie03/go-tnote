@@ -43,13 +43,15 @@ func main() {
 		cmd.Run()
 
 	} else {
-		err := createFile(todaysNotePath)
-		if err != nil {
+		if err := createFile(todaysNotePath); err != nil {
 			fmt.Println("Error:", err)
 		}
-		cmd := exec.Command("nvim", todaysNotePath)
+		dir := filepath.Dir(todaysNotePath)
+		file := filepath.Base(todaysNotePath)
+		cmd := exec.Command("nvim", file)
 		cmd.Stdin = os.Stdin
 		cmd.Stdout = os.Stdout
+		cmd.Dir = dir
 		cmd.Run()
 	}
 }
